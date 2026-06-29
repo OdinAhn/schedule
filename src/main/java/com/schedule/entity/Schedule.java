@@ -33,4 +33,11 @@ public class Schedule extends BaseEntity {
         this.name = name;
 
     }
+
+    // 삭제할 때 password 검증 로직
+    public void checkPassword(String password) {
+        if (!this.password.equals(password)) { // 암호가 틀리면
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+    }
 }
