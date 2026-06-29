@@ -30,7 +30,6 @@ public class ScheduleService {
                 savedSchedule.getSubject(),
                 savedSchedule.getContent(),
                 savedSchedule.getName(),
-                savedSchedule.getPassword(),
                 savedSchedule.getCreatedAt(),
                 savedSchedule.getModifiedAt()
 
