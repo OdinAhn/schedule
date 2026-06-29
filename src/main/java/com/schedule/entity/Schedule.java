@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "`schedules`") // 예약어가 설마 충돌......???
+@Table(name = "schedules")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 
 public class Schedule extends BaseEntity {

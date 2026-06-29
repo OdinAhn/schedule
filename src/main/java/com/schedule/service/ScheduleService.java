@@ -76,7 +76,7 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public GetOneScheduleResponse getOne(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalArgumentException("ID가 존재하지 않습니다")
+                () -> new IllegalArgumentException("일정이 존재하지 않습니다")
         );
         return new GetOneScheduleResponse(schedule);
     }
