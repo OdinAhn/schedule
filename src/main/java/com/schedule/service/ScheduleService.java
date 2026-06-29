@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,8 +41,20 @@ public class ScheduleService {
     //Search All
     @Transactional(readOnly = true)
     public List<GetOneScheduleResponse> getAll(String name) {
-        List<Schedule> schedules = scheduleRepository.findAll();
+        List<Schedule> schedules;
 
+        // 내림차순 조건 처리
+        if (name != null && !name.trim().isEmpty()) {
+            schedules = scheduleRepository.findAllByNameOrderByModifiedAtDesc(name);
+        } else {
+            schedules = scheduleRepository.findAllByOrderByModifiedAtDesc();
+        }
+
+        return schedules.stream()
+                .map(GetOneScheduleResponse::new)
+                .collect(Collectors.toList());
+
+        /*
         return schedules.stream()
                 .map(
                         schdule -> new GetOneScheduleResponse(
@@ -55,6 +68,8 @@ public class ScheduleService {
                 )
                 .toList();
 
+         */
+
     }
 
     // Search One
@@ -63,14 +78,7 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalArgumentException("ID가 존재하지 않습니다")
         );
-        return new GetOneScheduleResponse(
-                schedule.getId(),
-                schedule.getSubject(),
-                schedule.getContent(),
-                schedule.getName(),
-                schedule.getCreatedAt(),
-                schedule.getModifiedAt()
-        );
+        return new GetOneScheduleResponse(schedule);
     }
 
     // Update
@@ -82,8 +90,10 @@ public class ScheduleService {
 
         schedule.updateSchedule(
                 request.getSubject(),
-                request.getName()
+                request.getName(),
+                request.getPassword()
         );
+
         return new UpdateScheduleResponse(
                 schedule.getId(),
                 schedule.getSubject(),
