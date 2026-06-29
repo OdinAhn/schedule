@@ -9,7 +9,7 @@ public class UpdateScheduleRequest {
 
     private String subject;
     private String name;
-
+    private String password;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

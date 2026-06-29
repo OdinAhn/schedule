@@ -14,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleController {
 
-    private final ScheduleController scheduleController;
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
@@ -23,10 +22,11 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    // Search ALL
+    // Search ALL -> 작성자명 조건 검색 기능
     @GetMapping("/schedules")
-    public ResponseEntity<List<GetOneScheduleResponse>> getAllSchedules() {
-        List<GetOneScheduleResponse> result = scheduleService.getAll();
+    public ResponseEntity<List<GetOneScheduleResponse>> getAllSchedules(
+            @RequestParam(required = false) String name) {
+        List<GetOneScheduleResponse> result = scheduleService.getAll(name);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -47,7 +47,7 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    // Delete
+    // Delete -> Password 검증
     @DeleteMapping("/schedules/{scheduleId}")
     public ResponseEntity<Void> deleteSchedule(
             @PathVariable Long scheduleId,

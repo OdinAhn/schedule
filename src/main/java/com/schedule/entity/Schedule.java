@@ -27,8 +27,9 @@ public class Schedule extends BaseEntity {
         this.password = password;
     }
 
-    public void updateSchedule(String subject, String name) {
+    public void updateSchedule(String subject, String name,String password) {
         // 제목, 작성자만 수정가능, 비밀번호는 API 응답에서 제외
+        checkPassword(password);
         this.subject = subject;
         this.name = name;
 

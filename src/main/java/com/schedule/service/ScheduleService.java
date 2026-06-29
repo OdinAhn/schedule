@@ -6,9 +6,7 @@ import com.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +39,7 @@ public class ScheduleService {
 
     //Search All
     @Transactional(readOnly = true)
-    public List<GetOneScheduleResponse> getAll() {
+    public List<GetOneScheduleResponse> getAll(String name) {
         List<Schedule> schedules = scheduleRepository.findAll();
 
         return schedules.stream()
@@ -50,7 +48,9 @@ public class ScheduleService {
                                 schdule.getId(),
                                 schdule.getSubject(),
                                 schdule.getContent(),
-                                schdule.getName()
+                                schdule.getName(),
+                                schdule.getCreatedAt(),
+                                schdule.getModifiedAt()
                         )
                 )
                 .toList();
@@ -67,7 +67,9 @@ public class ScheduleService {
                 schedule.getId(),
                 schedule.getSubject(),
                 schedule.getContent(),
-                schedule.getName()
+                schedule.getName(),
+                schedule.getCreatedAt(),
+                schedule.getModifiedAt()
         );
     }
 
