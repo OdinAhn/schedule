@@ -15,7 +15,7 @@ public class GetOneScheduleResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    // 너무 기니까 Schudle 엔티티 통째로 가져오자
+    // 너무 기니까 Schedule 엔티티 통째로 가져오자
     public GetOneScheduleResponse(Schedule schedule) {
         this.id = schedule.getId();
         this.subject = schedule.getSubject();
