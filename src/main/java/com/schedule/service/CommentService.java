@@ -18,7 +18,7 @@ public class CommentService {
     @Transactional
     public CreateCommentResponse save(CreateCommentRequest request) {
 
-        // 댓글 10개 제한
+        // 댓글 10개 제한, countBy -> DB에서 필요한 만큼만 가져오기때문에 성능상 가볍다
         long commentCount = commentRepository.countByScheduleId(request.getScheduleId());
         if (commentCount >= 10) {
             throw new IllegalArgumentException("댓글은 10개까지만 입력 가능합니다.");
@@ -33,8 +33,6 @@ public class CommentService {
 
         return new CreateCommentResponse(savedComment);
 
-
     }
-
 
 }

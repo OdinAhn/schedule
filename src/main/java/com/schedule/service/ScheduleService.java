@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 
 public class ScheduleService {
+
     private final ScheduleRepository scheduleRepository;
+    private final CommentRepository commentRepository; // 단 건 조회시 댓글도 같이 나와야해서
 
     //Create
     @Transactional
@@ -53,7 +55,7 @@ public class ScheduleService {
         }
 
         return schedules.stream()
-                .map(GetOneScheduleResponse::new)
+                .map(GetOneScheduleResponse::from)
                 .collect(Collectors.toList());
 
         /*
@@ -80,7 +82,11 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalArgumentException("일정이 존재하지 않습니다")
         );
-        return new GetOneScheduleResponse(schedule);
+        // 일정 단건 조회 할때 댓글도 같이 조회되게 추가
+
+        List<Comment> comments = commentRepository.findByScheduleId(scheduleId);
+
+        return GetOneScheduleResponse.of(schedule, comments);
     }
 
     // Update
