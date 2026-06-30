@@ -23,6 +23,10 @@ public class ScheduleService {
     //Create
     @Transactional
     public CreateScheduleResponse save(CreateScheduleRequest request) {
+
+        // 유저의 입력에 대한 검증 수행
+        validateSchduleRequest(request);
+
         Schedule schedule = new Schedule(
                 request.getSubject(),
                 request.getContent(),
@@ -120,6 +124,28 @@ public class ScheduleService {
         schedule.checkPassword(password);
         // 스케줄이 있으면 삭제
         scheduleRepository.deleteById(scheduleId);
+    }
+
+    private void validateSchduleRequest(CreateScheduleRequest request) {
+
+        if (request.getSubject() == null || request.getSubject().trim().isEmpty()) {
+            throw new IllegalArgumentException("제목이 누락되었습니다..");
+        }
+        if (request.getSubject().length() > 30) {
+            throw new IllegalArgumentException("제목은 30자까지만 입력 가능합니다.");
+        }
+        if (request.getContent() == null || request.getContent().trim().isEmpty()) {
+            throw new IllegalArgumentException("내용이 누락되었습니다.");
+        }
+        if (request.getContent().length() > 200) {
+            throw new IllegalArgumentException("내용은 200자까지만 입력 가능합니다.");
+        }
+        if (request.getName() == null || request.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("작성자명이 누락되었습니다.");
+        }
+        if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("비밀번호가 누락되었습니다.");
+        }
     }
 
 
