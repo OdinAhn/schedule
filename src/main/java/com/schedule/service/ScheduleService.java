@@ -1,7 +1,9 @@
 package com.schedule.service;
 
 import com.schedule.dto.*;
+import com.schedule.entity.Comment;
 import com.schedule.entity.Schedule;
+import com.schedule.repository.CommentRepository;
 import com.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -113,4 +115,6 @@ public class ScheduleService {
         // 스케줄이 있으면 삭제
         scheduleRepository.deleteById(scheduleId);
     }
+
+
 }
