@@ -1,8 +1,6 @@
 package com.schedule.controller;
 
 import com.schedule.dto.*;
-import com.schedule.entity.Schedule;
-import com.schedule.service.CommentService;
 import com.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -53,10 +51,21 @@ public class ScheduleController {
     public ResponseEntity<Void> deleteSchedule(
             @PathVariable Long scheduleId,
             @RequestBody PasswordRequest passwordRequest
-            )
-    {
-        scheduleService.deleteSchedule(scheduleId,passwordRequest.getPassword());
+    ) {
+        scheduleService.deleteSchedule(scheduleId, passwordRequest.getPassword());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
+
+    // 400 Bad Request
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+    // 404 Not Found
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleException(IllegalStateException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
 }
