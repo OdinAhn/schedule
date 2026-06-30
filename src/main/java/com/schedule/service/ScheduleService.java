@@ -25,7 +25,7 @@ public class ScheduleService {
     public CreateScheduleResponse save(CreateScheduleRequest request) {
 
         // 유저의 입력에 대한 검증 수행
-        validateSchduleRequest(request);
+        validateScheduleRequest(request);
 
         Schedule schedule = new Schedule(
                 request.getSubject(),
@@ -126,7 +126,7 @@ public class ScheduleService {
         scheduleRepository.deleteById(scheduleId);
     }
 
-    private void validateSchduleRequest(CreateScheduleRequest request) {
+    private void validateScheduleRequest(CreateScheduleRequest request) {
 
         if (request.getSubject() == null || request.getSubject().trim().isEmpty()) {
             throw new IllegalArgumentException("제목이 누락되었습니다..");
